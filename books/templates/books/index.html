@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Library</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style type="text/css">
+   TABLE {
+    border-collapse: collapse;
+    margin: auto;
+   }
+   TD, TH {
+    padding: 3px;
+    border: 1px solid black;
+    text-align: center;
+   }
+   TH {
+    background: #ffb3b3;
+   }
+
+  </style>
+</head>
+<body>
+    {{ user.username }}
+    {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}">Logout</a>
+    <div class="container">
+    <form action="{% url 'load_file' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+       <br> <input type="file" name="file" accept=".csv"> <br><br>
+        <input type="submit" value="Отправить"><br><br>
+    </form>
+    <table>
+         <tr>
+            <th>Имя, фамилия автора</th><th><a href="{% url 'sort-birth' %}">Год рождения автора</a></th><th><a href="{% url 'sort-written-year' %}">Год издания книги</a></th></th><th>Название книги</th>
+            </tr>
+        {% for a in book %}
+            <tr>
+            <td>{{ a.author }}</td>
+                <td>{{ a.author_birth_year }}</td>
+                <td>{{ a.book_written_year }}</td>
+                <td>{{ a.book_title }}</td>
+            </tr>
+            {% endfor %}
+    </table>
+    {% else %}
+        <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+</body>
+</html>
+
+
