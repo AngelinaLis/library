@@ -15,7 +15,6 @@ count_author = 0
 def main_page(request):
     return render(request, "books/index.html")
 
-@login_required()
 def load_file(request):
     csv_file = csv.DictReader(codecs.iterdecode(request.FILES['file'], 'utf-8-sig'))
     book = Book.objects.all()
@@ -25,6 +24,7 @@ def load_file(request):
         if Book.objects.filter(author=i[key[1]]).exists() and Book.objects.filter(book_title=i[key[2]]).exists() == False or \
             Book.objects.filter(author=i[key[1]]).exists() == False and Book.objects.filter(book_title=i[key[2]]).exists() or \
             Book.objects.filter(author=i[key[1]]).exists() == False and Book.objects.filter(book_title=i[key[2]]).exists() == False:
+
             Book.objects.create(author_birth_year=i[key[0]], author=i[key[1]], book_title=i[key[2]], book_written_year=i[key[3]])
             #Book.objects.create(author=i['Author'], book_title=i['BookTitle'], author_birth_year=i['AuthorBirthYear'], book_written_year=i['BookWrittenYear'])
     return render(request, "books/index.html", context)
